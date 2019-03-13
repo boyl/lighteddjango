@@ -1,4 +1,4 @@
-#!F:\projects\lighteddjango\venv\Scripts\python.exe
+#!f:\works\study\workspace\lightteddjango\lighteddjango\venv\scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":

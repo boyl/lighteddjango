@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="F:\projects\lighteddjango\venv"
+VIRTUAL_ENV="F:\works\study\WorkSpace\lightteddjango\lighteddjango\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
