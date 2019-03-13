@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="one">one
+    <div id="two">two
+        <div id="three">three</div>
+    </div>
+</div>
+<!--
+1. target:触发事件的某个具体对象，只会出现在事件流的
+    目标阶段（谁触发谁命中，所以肯定是目标阶段）
+
+2. currentTarget:绑定事件的对象，恒等于this，可能
+    出现在事件流的任意一个阶段中
+
+3. 通常情况下target和currentTarget是一致的，我们只
+    要使用target即可，但有一种情况必须区分这三者的关系，
+    那就是在父子嵌套的关系中，父元素绑定了事件，单击了
+    子元素（根据事件流，在不阻止事件流的前提下他会传递
+    至父元素，导致父元素的事件处理函数执行），这时候
+    currentTarget指向的是父元素，因为他是绑定事件的
+    对象，而target指向了子元素，因为他是触发事件的那个具体对象
+
+具体效果，可以运行此页面，打开浏览器console，查看触发事件的输出
+    -->
+<script>  // 当前现代的浏览器对事件的处理方式为先捕获后冒泡
+one.addEventListener('click', function (e) {
+    console.log('one');
+    console.log(e.target);
+    console.log(e.currentTarget);
+}, false);
+
+two.addEventListener('click', function (e) {
+    console.log('two');
+    console.log(e.target);
+    console.log(e.currentTarget);
+}, false);
+
+three.addEventListener('click', function (e) {
+    console.log('three');
+    console.log(e.target);
+    console.log(e.currentTarget);
+}, true);
+</script>
+
+</body>
+</html>
