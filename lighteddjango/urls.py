@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
+from django.views.generic import TemplateView
 
 from rest_framework.authtoken.views import obtain_auth_token
 from board.urls import router
@@ -23,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/token/', obtain_auth_token, name='api-token'),
     re_path(r'^api/', include(router.urls)),
+    re_path(r'^$', TemplateView.as_view(template_name='board/index.html')),
 ]
