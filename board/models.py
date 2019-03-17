@@ -40,8 +40,9 @@ class Task(models.Model):
     due = models.DateField(blank=True, null=True)
     completed = models.DateField(blank=True, null=True)
 
-    sprint = models.ForeignKey(Sprint, models.CASCADE, blank=True, null=True)
-    assigned = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
+    sprint = models.ForeignKey(Sprint, models.CASCADE, related_name="tasks", blank=True, null=True)
+    assigned = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, related_name="user-tasks",
+                                 null=True, blank=True)
 
     def __str__(self):
         return self.name
