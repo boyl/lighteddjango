@@ -56,6 +56,12 @@ input, textarea {
 =====================
  */
 
+header {
+    height: 45px;
+    line-height: 45px;
+    border-bottom: 1px solid #CCC;
+}
+
 header .title {
     font-weight: 900;
     padding-left: 25px;

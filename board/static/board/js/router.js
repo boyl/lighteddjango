@@ -9,6 +9,7 @@
             this.current = null;
             this.header = new app.views.HeaderView();
             $('body').prepend(this.header.el);
+            this.header.render();  // It should render template always.
             Backbone.history.start();
         },
         home: function () {
@@ -32,6 +33,7 @@
                 var args = _.without(arguments, original);
                 if (app.session.authenticated()){
                     original.apply(this, args);
+                    //this.header.render();  // It seems lost this step when user already login.
                 }
                 else{
                     // Show the login screen before calling the view
