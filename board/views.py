@@ -1,4 +1,5 @@
 from rest_framework import viewsets, authentication, permissions, filters
+from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth import get_user_model
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -43,6 +44,15 @@ class SprintFilter(django_filters.FilterSet):
         fields = ('end_min', 'end_max',)
 
 
+class StandardResultsSetPagination(PageNumberPagination):
+    """
+    Setting pagination for standard results.
+    """
+    page_size = 25
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class DefaultsMixin(object):
     """
     Default settings for view authentication, permissions,
@@ -57,9 +67,7 @@ class DefaultsMixin(object):
     permission_classes = (
         permissions.IsAuthenticated,
     )
-    paginate_by = 25
-    paginate_by_param = 'page_size'
-    max_paginate_by = 100
+    pagination_class = StandardResultsSetPagination
     filter_backends = (
         filters.SearchFilter,
         filters.OrderingFilter,
