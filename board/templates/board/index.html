@@ -66,12 +66,61 @@
                 <h2><%- sprint.get('name') %></h2>
                 <span class="due-date">Due <%- sprint.get('end') %></span>
                 <p class="description"><%- sprint.get('description') %></p>
+                <div class="tasks"></div>
             <% } else { %>
                 <h1>Sprint <%- sprint.get('id') %> not found.</h1>
             <% } %>
         <% } else { %>
             <h1 class="loading">Loading...</h1>
         <% } %>
+    </script>
+
+    <script type="text/html" id="status-template">
+        <h4><%- title %></h4>
+        <div class="list"></div>
+        <% if (sprint === null) { %>
+            <button class="add" type="submit">Add Task</button>
+        <% } %>
+    </script>
+
+    <script type="text/html" id="new-task-template">
+        <form class="add-task" action="" method="post">
+            <label for="id_name">Task Name</label>
+            <input id="id_name" type="text" name="name" maxlength="100" required />
+            <label for="id_description">Description</label>
+            <textarea id="id_description" name="description"></textarea>
+            <button class="create" type="submit">Create</button>
+            <button class="cancel" type="submit">Cancel</button>
+        </form>
+    </script>
+
+    <script type="text/html" id="task-item-template">
+        <%- task.get('name') %>
+    </script>
+
+    <script type="text/html" id="task-detail-template">
+        <div data-field="name" class="name" contenteditable="true">
+            <%- task.get('name') %>
+        </div>
+        <div data-field="description" class="description" contenteditable="true">
+            <%- task.get('description') %>
+        </div>
+        <div class="with-label">
+            <div class="label">Due:</div>
+            <div data-field="due" class="due date" contenteditable="true">
+                <%- task.get('due') || empty %>
+            </div>
+        </div>
+        <div class="with-label">
+            <div class="label">Assigned To:</div>
+            <div data-field="assigned" class="assigned" contenteditable="true">
+                <%- task.get('assigned') || empty %>
+            </div>
+        </div>
+        <form>
+            <button class="cancel" type="submit">Close</button>
+            <button class="save" type="submit">Save</button>
+        </form>
     </script>
 
 </head>
