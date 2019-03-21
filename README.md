@@ -5,3 +5,5 @@
 # dom.html：
 是target和currentTarget一个区别验证的实践页面
 
+# notice
+- In JS  (sting) "4" === (int) 4 is false, the type of each other should be in consistent
