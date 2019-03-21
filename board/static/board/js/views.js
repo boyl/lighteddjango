@@ -319,7 +319,7 @@
         initialize: function (options) {
             var self = this;
             TemplateView.prototype.initialize.apply(this, arguments);
-            this.sprintId = options.sprintId;  // how does the id get
+            this.sprintId = parseInt(options.sprintId);  // how does the id get
             this.sprint = null;
             this.tasks = {};
             this.statuses = {
@@ -386,7 +386,7 @@
         renderTask: function (task) {
             var view = new TaskItemView({task: task});
             _.each(this.statuses, function (container, name) {
-                if (container.sprint === task.get('sprint')
+                if (container.sprint === task.get('sprint')  // Because we use the `===` ; string "4" is int 4 so ("4" === 4) is false
                     && container.status === task.get('status')) {
                     container.addTask(view);
                 }

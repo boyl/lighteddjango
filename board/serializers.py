@@ -22,7 +22,7 @@ class SprintSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return {
             'self': reverse('sprint-detail', kwargs={'pk': obj.pk}, request=request),
-            'task': reverse('task-list', request=request) + '?sprint={}'.format(obj.pk),
+            'tasks': reverse('task-list', request=request) + '?sprint={}'.format(obj.pk),
         }
 
     def validate_end(self, value):
@@ -115,7 +115,7 @@ class UserSerializer(serializers.ModelSerializer):
         return {
             'self': reverse('user-detail', kwargs={User.USERNAME_FIELD: username},
                             request=request),
-            'task': '{0}?assigned={1}'.format(
+            'tasks': '{0}?assigned={1}'.format(
                 reverse('task-list', request=request), username
             )
         }
