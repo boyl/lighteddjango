@@ -128,4 +128,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Rest Framework Settings
+
+# WebSocket Settings
+
+WATERCOOLER_SERVER = os.environ.get('WATERCOOLER_SERVER', 'localhost:8080')
+
+WATERCOOLER_SECURE = bool(os.environ.get('WATERCOOLER_SECURE', ''))
