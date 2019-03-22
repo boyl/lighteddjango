@@ -346,6 +346,7 @@
                     self.render();
                     // Add any current tasks
                     app.tasks.each(self.addTask, self);
+                    console.info(app.tasks);
                     // Fetch tasks for the current sprint
                     sprint.fetchTasks();
                 }).fail(function (sprint) {
