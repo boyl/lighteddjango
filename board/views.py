@@ -1,6 +1,10 @@
+import requests
+
+from django.conf import settings
+from django.contrib.auth import get_user_model
+
 from rest_framework import viewsets, authentication, permissions, filters
 from rest_framework.pagination import PageNumberPagination
-from django.contrib.auth import get_user_model
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -75,7 +79,49 @@ class DefaultsMixin(object):
     )
 
 
-class SprintViewSet(DefaultsMixin, viewsets.ModelViewSet):
+class UpdateHookMixin(object):
+    """Mixin class to send update information to the websocket server."""
+
+    @staticmethod
+    def _build_hook_url(obj):
+        if isinstance(obj, User):
+            model = 'user'
+        else:
+            model = obj.__class__.__name__.lower()
+
+        proto = 'https' if settings.WATERCOOLER_SECURE else 'http'
+        host = settings.WATERCOOLER_SERVER
+        return f"{proto}://{host}/{model}/{obj.pk}"
+
+    def _send_hook_request(self, obj, method):
+        url = self._build_hook_url(obj)
+        try:
+            response = requests.request(method, url, timeout=0.5)
+            response.raise_for_status()
+        except requests.exceptions.ConnectionError:
+            # Host could not be resolved or the connection was refused
+            pass
+        except requests.exceptions.Timeout:
+            # Request timed out
+            pass
+        except requests.exceptions.RequestException:
+            # Server response with 4XX or 5XX status code
+            pass
+
+    def perform_create(self, serializer):
+        super().perform_create(serializer)
+        self._send_hook_request(serializer.instance, 'POST')
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        self._send_hook_request(serializer.instance, 'PUT')
+
+    def perform_destroy(self, instance):
+        self._send_hook_request(instance, 'DELETE')
+        super().perform_destroy(instance)
+
+
+class SprintViewSet(DefaultsMixin, UpdateHookMixin, viewsets.ModelViewSet):
     """API endpoint for listing and creating sprints."""
 
     queryset = Sprint.objects.order_by('end')
@@ -85,7 +131,7 @@ class SprintViewSet(DefaultsMixin, viewsets.ModelViewSet):
     ordering_fields = ('end', 'name', )
 
 
-class TaskViewSet(DefaultsMixin, viewsets.ModelViewSet):
+class TaskViewSet(DefaultsMixin, UpdateHookMixin, viewsets.ModelViewSet):
     """API endpoint for listing and creating tasks."""
 
     queryset = Task.objects.all()
@@ -95,7 +141,7 @@ class TaskViewSet(DefaultsMixin, viewsets.ModelViewSet):
     ordering_fields = ('name', 'order', 'started', 'due', 'completed',)
 
 
-class UserViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
+class UserViewSet(DefaultsMixin, UpdateHookMixin, viewsets.ReadOnlyModelViewSet):
     """API endpoint for listing users."""
 
     lookup_field = User.USERNAME_FIELD

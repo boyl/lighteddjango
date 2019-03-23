@@ -1,7 +1,14 @@
+certifi==2019.3.9
+chardet==3.0.4
 Django==2.1.7
 django-filter==2.1.0
 djangorestframework==3.9.1
+idna==2.8
 Markdown==3.0.1
 mysqlclient==1.4.2.post1
 pytz==2018.9
+redis==3.2.1
+requests==2.21.0
 tornado==6.0.1
+tornado-redis==2.4.18
+urllib3==1.24.1
