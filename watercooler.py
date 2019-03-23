@@ -31,9 +31,10 @@ class SprintHandler(WebSocketHandler):
         matched = any(parsed.netloc == host for host in options.allowed_hosts)
         return options.debug or allowed or matched
 
-    def open(self, sprint, *args: str, **kwargs: str) -> Optional[Awaitable[None]]:
+    def open(self, *args: str, **kwargs: str) -> Optional[Awaitable[None]]:
         """Subscribe to sprint updates on a new connection."""
-        setattr(self, 'sprint', sprint)
+        breakpoint()
+        setattr(self, 'sprint', kwargs.get('sprint'))
         self.application.add_subscriber(getattr(self, 'sprint'), self)
 
     def on_message(self, message: Union[str, bytes]) -> Optional[Awaitable[None]]:

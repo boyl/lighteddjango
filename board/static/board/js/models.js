@@ -123,6 +123,9 @@
             // Backlog Tasks
             if (!updates.sprint) {
                 // Tasks moved back to the backlog
+                if (this.get('status') === 4) {  // Completed tasks could not be updated
+                    return false;
+                }
                 updates.status = 1;
             }
             // Started Tasks

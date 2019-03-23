@@ -97,7 +97,7 @@ class TaskSerializer(serializers.ModelSerializer):
         if not sprint and status != Task.STATUS_TODO:
             msg = _('Backlog tasks must have "Not Started status."')
             raise serializers.ValidationError(msg)
-        if started and status == Task.STATUS_DONE:
+        if started and status == Task.STATUS_TODO:
             msg = _('Started date cannot be set for not started tasks.')
             raise serializers.ValidationError(msg)
         if completed and status != Task.STATUS_DONE:
