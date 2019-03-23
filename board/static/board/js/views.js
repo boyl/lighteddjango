@@ -245,6 +245,16 @@
                 event.stopPropagation();
             }
             // TODO: Handle changing the task status.
+            task = app.tasks.get(task);
+            let tasks = app.tasks.where({sprint: this.sprint, status: this.status});
+            if (tasks.length) {
+                var order = _.min(_.map(tasks, function (model) {
+                    return model.get('order');
+                }));
+            } else {
+                order = 1;
+            }
+            task.moveTo(this.status, this.sprint, order - 1);
             this.trigger('drop', task);
             this.leave();
         }
@@ -458,12 +468,14 @@
             this.socket = null;
             app.collections.ready.done(function () {
                 app.tasks.on('add', self.addTask, self);
+                app.tasks.on('change', self.changeTask, self);
                 app.sprints.getOrFetch(self.sprintId).done(function (sprint) {
                     self.sprint = sprint;
                     self.connectSocket();
                     self.render();
                     // Add any current tasks
                     app.tasks.each(self.addTask, self);
+                    console.info(app.tasks);
                     // Fetch tasks for the current sprint
                     sprint.fetchTasks();
                 }).fail(function (sprint) {
@@ -561,6 +573,16 @@
             TemplateView.prototype.remove.apply(this, arguments);
             if (this.socket && this.socket.close) {
                 this.socket.close();
+            }
+        },
+
+        changeTask: function (task) {
+            let changed = task.changedAttributes(),
+                view = this.tasks[task.get('id')];
+            if (view && typeof (changed.status) !== 'undefined' ||
+            typeof (changed.sprint) !== 'undefined') {
+                view.remove();
+                this.addTask(task);
             }
         }
     });
