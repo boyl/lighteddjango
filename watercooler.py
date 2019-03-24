@@ -15,7 +15,6 @@ from tornado.options import define, parse_command_line, options
 from tornado.web import Application, RequestHandler
 from tornado.websocket import WebSocketHandler, WebSocketClosedError
 
-
 define('debug', default=False, type=bool, help='Run in debug mode')
 define('port', default=8080, type=int, help='Server port')
 define('allowed_hosts', default="localhost:8080", multiple=True,
@@ -72,8 +71,8 @@ class ScrumApplication(Application):
 
     def __init__(self, **kwargs):
         routes = [
-        (r'/(?P<sprint>[0-9]+)', SprintHandler),
-        (r'/(?P<model>task|sprint|user)/(?P<pk>[0-9]+)', UpdateHandler),
+            (r'/(?P<sprint>[0-9]+)', SprintHandler),
+            (r'/(?P<model>task|sprint|user)/(?P<pk>[0-9]+)', UpdateHandler),
         ]
         super().__init__(routes, **kwargs)
         self.subscriptions = defaultdict(list)
