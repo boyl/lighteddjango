@@ -23,7 +23,6 @@ from tornado.websocket import WebSocketHandler, WebSocketClosedError
 from tornadoredis import Client
 from tornadoredis.pubsub import BaseSubscriber
 
-
 define('debug', default=False, type=bool, help='Run in debug mode')
 define('port', default=8080, type=int, help='Server port')
 define('allowed_hosts', default="localhost:8080", multiple=True,
