@@ -11,7 +11,6 @@ import uuid
 from typing import Union, Optional, Awaitable
 from urllib.parse import urlparse
 
-from django.conf import settings
 from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
 from django.utils.crypto import constant_time_compare
 from redis import Redis
@@ -137,13 +136,13 @@ class ScrumApplication(Application):
 
     def __init__(self, **kwargs):
         routes = [
-        (r'/socket', SprintHandler),
-        (r'/(?P<model>task|sprint|user)/(?P<pk>[0-9]+)', UpdateHandler),
+            (r'/socket', SprintHandler),
+            (r'/(?P<model>task|sprint|user)/(?P<pk>[0-9]+)', UpdateHandler),
         ]
         super().__init__(routes, **kwargs)
         self.subscriber = RedisSubscriber(Client())
         self.publisher = Redis()
-        self._key = os.environ.get('WATERCOOLER_SECRET', settings.SECRET_KEY)
+        self._key = os.environ.get('WATERCOOLER_SECRET', ')zu-07tfvq5&@f^k26f&c58w+w$q=r#ttx!j6pku(-lj6d3jtv')
         self.signer = TimestampSigner(self._key)
 
     def add_subscriber(self, channel, subscriber):
