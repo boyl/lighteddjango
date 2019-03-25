@@ -1,9 +1,12 @@
+import hashlib
 import requests
 
 from django.conf import settings
+from django.core.signing import TimestampSigner
 from django.contrib.auth import get_user_model
 
 from rest_framework import viewsets, authentication, permissions, filters
+from rest_framework.renderers import JSONRenderer
 from rest_framework.pagination import PageNumberPagination
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -95,8 +98,20 @@ class UpdateHookMixin(object):
 
     def _send_hook_request(self, obj, method):
         url = self._build_hook_url(obj)
+        if method in ('POST', 'PUT'):
+            # Build the body
+            serializer = self.get_serializer(obj)
+            renderer = JSONRenderer()
+            context = dict(request=self.request)
+            body = renderer.render(serializer.data, renderer_context=context)
+        else:
+            body = None
+        headers = {
+            'content-type': 'application/json',
+            'X-Signature': self._build_hook_signature(method, url, body)
+        }
         try:
-            response = requests.request(method, url, timeout=0.5)
+            response = requests.request(method, url, data=body, headers=headers, timeout=0.5)
             response.raise_for_status()
         except requests.exceptions.ConnectionError:
             # Host could not be resolved or the connection was refused
@@ -107,6 +122,13 @@ class UpdateHookMixin(object):
         except requests.exceptions.RequestException:
             # Server response with 4XX or 5XX status code
             pass
+
+    @staticmethod
+    def _build_hook_signature(method, url, body):
+        signer = TimestampSigner(settings.WATERCOOLER_SECRET)
+        body = hashlib.sha256(body or b'').hexdigest()
+        value = f"{method.lower()}:{url}:{body}"
+        return signer.sign(value)
 
     def perform_create(self, serializer):
         super().perform_create(serializer)

@@ -568,14 +568,23 @@
                 }, this);
 
                 this.socket.on('task:add', function (task, result) {
-                    let model = app.tasks.push({id: task});
-                    model.fetch();
+                    let model;
+                    if (result.body) {
+                        model = app.tasks.add([result.body]);
+                    } else {
+                        model = app.tasks.push({id: task});
+                        model.fetch();
+                    }
                 }, this);
 
                 this.socket.on('task:update', function (task, result) {
                     let model = app.tasks.get(task);
                     if (model) {
-                        model.fetch();
+                        if (result.body) {  // add from websocket result, 直接从结果获得数据
+                            model.set(result.body);
+                        } else {  // fetch from API, 会再次发送请求去取数据，而数据已经在结果中
+                            model.fetch();
+                        }
                     }
                 }, this);
 

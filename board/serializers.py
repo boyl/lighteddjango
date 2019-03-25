@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.core.signing import TimestampSigner
 
 from datetime import date
 
@@ -22,13 +23,16 @@ class SprintSerializer(serializers.ModelSerializer):
 
     def get_links(self, obj):
         request = self.context['request']
+        signer = TimestampSigner(settings.WATERCOOLER_SECRET)
+        # signature for WebSocket server to validate if the browser client is credible.
+        # Using for browser client to send wss.
+        channel = signer.sign(obj.pk)
         proto = 'wss' if settings.WATERCOOLER_SECURE else 'ws'
         server = settings.WATERCOOLER_SERVER
-        channel = obj.pk
         return {
             'self': reverse('sprint-detail', kwargs={'pk': obj.pk}, request=request),
             'tasks': reverse('task-list', request=request) + '?sprint={}'.format(obj.pk),
-            'channel': f"{proto}://{server}/{channel}"
+            'channel': f"{proto}://{server}/socket?channel={channel}"
         }
 
     def validate_end(self, value):
