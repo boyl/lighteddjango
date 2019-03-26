@@ -27,3 +27,7 @@
 * task-create-update view: ![taskcreateupdatepage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/taskaddupdatepage.png)
 
 - GIF: ![display](https://github.com/boyl/lighteddjango/blob/master/exhibition/gif/display.gif)
+# TODO:
+- Using python3.7 features.
+- Using JS ES6 syntax.
+-
