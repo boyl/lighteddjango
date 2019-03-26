@@ -1,5 +1,5 @@
 # lighteddjango
-  - 轻量级django实践
+  - 轻量级django实践|bookname:轻量级django
   - 所涉及到的django、python、drf、backbone相关工具，都是时下（2019-03-13）最新版本，具体版本可以到项目中查看
 
 # dom.html：
@@ -19,6 +19,7 @@
 - url: localhost:8000/api 数据drf-api及相关操作
 # others:
 - If you finish section 8:tornado communicate with django, then you should setup redis and run it to get the whole features.
+- There's a original examples from this book at this link: https://github.com/lightweightdjango/examples
 
 #  exhibition:
 * login view:![loginpage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/homepage.png)
