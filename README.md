@@ -19,6 +19,7 @@
 - url: localhost:8000/api 数据drf-api及相关操作
 # others:
 - If you **finish section 8**:tornado communicate with django, _then you should **setup redis** and run it to get the whole features._
+Then you should run `python watercooler.py --debug`, it will listen on localhost:8080 as a websocket server.
 - There's a original examples from this book at this link: https://github.com/lightweightdjango/examples
 
 #  exhibition:
