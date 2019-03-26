@@ -6,6 +6,7 @@
 是target和currentTarget一个区别验证的实践页面
 
 # notice
+- DB I use mysql. not postgresql in book.
 - In JS  (sting) "4" === (int) 4 is false, the type of each other should be in consistent
 - Downgrade Tornado==4.2, due to tornadoredis imcompatible with tornado==6.0.2
 - redis on windows, there is a link for download:https://github.com/MicrosoftArchive/redis/releases
