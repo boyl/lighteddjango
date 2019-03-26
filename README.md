@@ -18,7 +18,7 @@
 - 启动本地服务`python manage.py runserver 127.0.0.1`，打开页面进行访问。
 - url: localhost:8000/api 数据drf-api及相关操作
 # others:
-- If you finish section 8:tornado communicate with django, then you should setup redis and run it to get the whole features.
+- If you **finish section 8:tornado communicate with django**, _then you should **setup redis** and run it to get the whole features.
 - There's a original examples from this book at this link: https://github.com/lightweightdjango/examples
 
 #  exhibition:
