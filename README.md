@@ -20,11 +20,11 @@
 - _If you want to obtain full features,_ **see below at others.**
 # others:
 - If you **finish section 8**:tornado communicate with django, _then you should **setup redis** and run it to get the whole features._
-Then you should run `python watercooler.py --debug`, it will listen on localhost:8080 as a websocket server.
+Then you should run `python watercooler.py --debug` in your project enviroment, it will listen on localhost:8080 as a websocket server.
 - There's a original examples from this book at this link: https://github.com/lightweightdjango/examples
 
 #  exhibition:
-* login view:![loginpage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/homepage.png)
+* login view: ![loginpage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/homepage.png)
 * home view: ![homepage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/loginpage.png)
 * sprint-create view: ![sprintaddpage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/sprintcreatepage.png)
 * sprint-detail view: ![sprintdetailpage](https://github.com/boyl/lighteddjango/blob/master/exhibition/images/sprintdetailpage.png)
