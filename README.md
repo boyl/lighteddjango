@@ -9,7 +9,7 @@
 - DB I use mysql. not postgresql in book.
 - In JS  (sting) "4" === (int) 4 is false, the type of each other should be in consistent
 - Downgrade Tornado==4.2, due to tornadoredis imcompatible with tornado==6.0.2
-- redis on windows, there is a link for download:https://github.com/MicrosoftArchive/redis/releases
+- redis on windows, obtain redis `startswith Redis*/` in my project or there is a link for download:https://github.com/MicrosoftArchive/redis/releases 
 
 # how does it run:
 - 获得项目后，在虚拟环境中执行`pip install -r requirements.txt`.
