@@ -78,7 +78,7 @@ class SprintHandler(WebSocketHandler):
             else:
                 uid = uuid.uuid4().hex  # unique uid, Using to send message to others not itself.
                 setattr(self, 'uid', uid)
-                self.application.add_subcriber(getattr(self, 'sprint'), self)
+                self.application.add_subscriber(getattr(self, 'sprint'), self)
 
     def on_message(self, message: Union[str, bytes]) -> Optional[Awaitable[None]]:
         """Broadcast updates to other interested clients."""
